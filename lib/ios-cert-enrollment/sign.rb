@@ -35,7 +35,8 @@ module IOSCertEnrollment
         degenerate_pkcs7.certificates=[cert]
         enc_cert = OpenSSL::PKCS7.encrypt(p7sign.certificates, degenerate_pkcs7.to_der, 
             OpenSSL::Cipher::Cipher::new("des-ede3-cbc"), OpenSSL::PKCS7::BINARY)
-        reply = OpenSSL::PKCS7.sign(SSL.certificate, SSL.key, enc_cert.to_der, [], OpenSSL::PKCS7::BINARY)
+        ssl_intermediate = SSL.intermediate || []
+        reply = OpenSSL::PKCS7.sign(SSL.certificate, SSL.key, enc_cert.to_der, ssl_intermediate, OpenSSL::PKCS7::BINARY)
 
         return Certificate.new(reply.to_der, "application/x-pki-message")        
       end

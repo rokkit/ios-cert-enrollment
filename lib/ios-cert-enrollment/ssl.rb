@@ -11,6 +11,10 @@ module IOSCertEnrollment
         return @@certificate if @@certificate
         return @@certificate = OpenSSL::X509::Certificate.new(File.read(IOSCertEnrollment.ssl_certificate_path))
       end
+      
+      def intermediate
+        return @@intermediate = OpenSSL::X509::Certificate.new(File.read(IOSCertEnrollment.ssl_intermediate_path))
+      end
     end
     
   end  
